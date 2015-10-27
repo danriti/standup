@@ -11,7 +11,7 @@ var (
 	roomId = os.Getenv("HIPCHAT_ROOM_ID")
 )
 
-const MESSAGE = `%v:
+const MESSAGE_TMPL = `%v:
 <ul>
 <li><b>Yesterday</b>: %v</li>
 <li><b>Today</b>: %v</li>
@@ -26,12 +26,12 @@ type Message struct {
 	IsBlocked bool
 }
 
-func (s *Message) Notify() {
+func (m *Message) Notify() {
 	c := hipchat.NewClient(token)
 	nr := &hipchat.NotificationRequest{
-		Message:       s.message(),
+		Message:       m.formatted(),
 		MessageFormat: "html",
-		Color:         s.color(),
+		Color:         m.color(),
 	}
 	resp, err := c.Room.Notification(roomId, nr)
 	if err != nil {
@@ -40,12 +40,12 @@ func (s *Message) Notify() {
 	fmt.Printf("Success %+v\n", resp.StatusCode)
 }
 
-func (s *Message) message() string {
-	return fmt.Sprintf(MESSAGE, s.Name, s.Yesterday, s.Today, s.Blocked)
+func (m *Message) formatted() string {
+	return fmt.Sprintf(MESSAGE_TMPL, m.Name, m.Yesterday, m.Today, m.Blocked)
 }
 
-func (s *Message) color() string {
-	if s.IsBlocked == true {
+func (m *Message) color() string {
+	if m.IsBlocked == true {
 		return "red"
 	}
 	return "green"
