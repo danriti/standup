@@ -1,8 +1,10 @@
 package standup
 
 import (
+    "bytes"
 	"fmt"
 	"github.com/tbruyelle/hipchat-go/hipchat"
+    "text/template"
 	"os"
 )
 
@@ -11,11 +13,11 @@ var (
 	roomId = os.Getenv("HIPCHAT_ROOM_ID")
 )
 
-const MESSAGE_TMPL = `%v:
+const MESSAGE_TMPL = `{{.Name}}:
 <ul>
-<li><b>Yesterday</b>: %v</li>
-<li><b>Today</b>: %v</li>
-<li><b>Blocked</b>: %v</li>
+<li><b>Yesterday</b>: {{.Yesterday}}</li>
+<li><b>Today</b>: {{.Today}}</li>
+<li><b>Blocked</b>: {{.Blocked}}</li>
 </ul>`
 
 type Message struct {
@@ -35,13 +37,16 @@ func (m *Message) Notify() {
 	}
 	resp, err := c.Room.Notification(roomId, nr)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error during room notification %q\n", err)
+		fmt.Fprintf(os.Stderr, "Error during Notify %q\n", err)
 	}
 	fmt.Printf("Success %+v\n", resp.StatusCode)
 }
 
 func (m *Message) formatted() string {
-	return fmt.Sprintf(MESSAGE_TMPL, m.Name, m.Yesterday, m.Today, m.Blocked)
+    var msg bytes.Buffer
+    t, _ := template.New("Message").Parse(MESSAGE_TMPL)
+    _ = t.Execute(&msg, m)
+	return msg.String()
 }
 
 func (m *Message) color() string {
