@@ -1,2 +1,3 @@
 .env
 *.pyc
+cmd/standup-server/standup-server
