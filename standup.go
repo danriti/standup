@@ -1,11 +1,11 @@
 package standup
 
 import (
-    "bytes"
+	"bytes"
 	"fmt"
 	"github.com/tbruyelle/hipchat-go/hipchat"
-    "text/template"
 	"os"
+	"text/template"
 )
 
 var (
@@ -43,9 +43,9 @@ func (m *Message) Notify() {
 }
 
 func (m *Message) formatted() string {
-    var msg bytes.Buffer
-    t, _ := template.New("Message").Parse(MESSAGE_TMPL)
-    _ = t.Execute(&msg, m)
+	var msg bytes.Buffer
+	t, _ := template.New("Message").Parse(MESSAGE_TMPL)
+	_ = t.Execute(&msg, m)
 	return msg.String()
 }
 
