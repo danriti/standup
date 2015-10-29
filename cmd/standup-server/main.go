@@ -8,11 +8,11 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", IndexHandler)
-	http.ListenAndServe(":3000", nil)
+	http.HandleFunc("/", indexHandler)
+	http.ListenAndServe(":5000", nil)
 }
 
-func IndexHandler(w http.ResponseWriter, r *http.Request) {
+func indexHandler(w http.ResponseWriter, r *http.Request) {
 	nr := &notifyResponse{Success: false, Failure: false}
 	if r.Method == "POST" {
 		r.ParseForm()
@@ -25,7 +25,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		success, err := msg.Notify()
 		nr.Success = success
-		nr.Failure = err != nil
+		nr.Failure = !success || err != nil
 	}
 	httputils.RenderTemplate(w, "standup.html", nr)
 }

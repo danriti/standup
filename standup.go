@@ -14,13 +14,6 @@ var (
 	roomId = os.Getenv("HIPCHAT_ROOM_ID")
 )
 
-const MESSAGE_TMPL = `{{.Name}}:
-<ul>
-<li><b>Yesterday</b>: {{.Yesterday}}</li>
-<li><b>Today</b>: {{.Today}}</li>
-<li><b>Blocked</b>: {{.Blocked}}</li>
-</ul>`
-
 type Message struct {
 	Name      string
 	Yesterday string
@@ -58,3 +51,10 @@ func (m *Message) color() string {
 	}
 	return "green"
 }
+
+const MESSAGE_TMPL = `{{.Name}}:
+<ul>
+<li><b>Yesterday</b>: {{.Yesterday}}</li>
+<li><b>Today</b>: {{.Today}}</li>
+<li><b>Blocked</b>: {{.Blocked}}</li>
+</ul>`
