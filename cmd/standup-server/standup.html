@@ -1,0 +1,48 @@
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Astrocats Standup!</h1>
+
+  {{if .Success}}
+    <div class="alert alert-success" role="alert">
+      <strong>Well done!</strong> Your standup was submitted to HipChat.
+    </div>
+  {{end}}
+
+  {{if .Failure}}
+    <div class="alert alert-danger" role="alert">
+      <strong>Oh snap!</strong> Something went wrong, so please manually post in HipChat.
+    </div>
+  {{end}}
+
+    <form action="/" method="post">
+      <div class="form-group">
+        <label>Name:</label>
+        <input type="text" name="name" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Yesterday:</label>
+        <textarea class="form-control" name="yesterday" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Today:</label>
+        <textarea class="form-control" name="today" rows="3"></textarea>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="is_blocked"> Is Blocked?
+        </label>
+      </div>
+      <div class="form-group">
+        <label>Blocked:</label>
+        <textarea class="form-control" name="blocked" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+  </div>
+</body>
+</html>
