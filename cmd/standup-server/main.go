@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/danriti/standup"
@@ -9,7 +10,11 @@ import (
 
 func main() {
 	http.HandleFunc("/", indexHandler)
-	http.ListenAndServe(":5000", nil)
+	log.Println("starting server")
+	err := http.ListenAndServe(":5000", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {

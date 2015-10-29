@@ -3,6 +3,7 @@ package standup
 import (
 	"bytes"
 	"log"
+	"net/http"
 	"os"
 	"text/template"
 
@@ -31,11 +32,11 @@ func (m *Message) Notify() (success bool, err error) {
 	}
 	resp, err := c.Room.Notification(roomId, nr)
 	if err != nil {
-		log.Println("Error during Notify", err)
+		log.Println("error notifying room", err)
 		return false, err
 	}
-	log.Println("Notify success", resp.StatusCode)
-	return resp.StatusCode == 204, err
+	log.Println("success notifying room", resp.StatusCode)
+	return resp.StatusCode == http.StatusNoContent, err
 }
 
 func (m *Message) formatted() string {
