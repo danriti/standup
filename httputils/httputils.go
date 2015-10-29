@@ -2,17 +2,20 @@ package httputils
 
 import (
 	"html/template"
+	"log"
 	"net/http"
 )
 
 func RenderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
 	t, err := template.ParseFiles(tmpl)
 	if err != nil {
+		log.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	err = t.Execute(w, data)
 	if err != nil {
+		log.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

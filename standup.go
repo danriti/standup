@@ -2,7 +2,7 @@ package standup
 
 import (
 	"bytes"
-	"fmt"
+	"log"
 	"os"
 	"text/template"
 
@@ -31,10 +31,10 @@ func (m *Message) Notify() (success bool, err error) {
 	}
 	resp, err := c.Room.Notification(roomId, nr)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error during Notify %q\n", err)
+		log.Println("Error during Notify", err)
 		return false, err
 	}
-	fmt.Printf("Success %+v\n", resp.StatusCode)
+	log.Println("Notify success", resp.StatusCode)
 	return resp.StatusCode == 204, err
 }
 
