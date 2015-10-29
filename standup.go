@@ -40,8 +40,8 @@ func (m *Message) Notify() (success bool, err error) {
 
 func (m *Message) formatted() string {
 	var msg bytes.Buffer
-	t, _ := template.New("Message").Parse(MESSAGE_TMPL)
-	_ = t.Execute(&msg, m)
+	t, _ := template.New("Message").Parse(messageTemplate)
+	t.Execute(&msg, m)
 	return msg.String()
 }
 
@@ -52,7 +52,7 @@ func (m *Message) color() string {
 	return "green"
 }
 
-const MESSAGE_TMPL = `{{.Name}}:
+const messageTemplate = `{{.Name}}:
 <ul>
 <li><b>Yesterday</b>: {{.Yesterday}}</li>
 <li><b>Today</b>: {{.Today}}</li>
