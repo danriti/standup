@@ -3,9 +3,10 @@ package standup
 import (
 	"bytes"
 	"fmt"
-	"github.com/tbruyelle/hipchat-go/hipchat"
 	"os"
 	"text/template"
+
+	"github.com/tbruyelle/hipchat-go/hipchat"
 )
 
 var (
@@ -28,7 +29,7 @@ type Message struct {
 	IsBlocked bool
 }
 
-func (m *Message) Notify() {
+func (m *Message) Notify() (success bool, err error) {
 	c := hipchat.NewClient(token)
 	nr := &hipchat.NotificationRequest{
 		Message:       m.formatted(),
@@ -38,8 +39,10 @@ func (m *Message) Notify() {
 	resp, err := c.Room.Notification(roomId, nr)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error during Notify %q\n", err)
+		return false, err
 	}
 	fmt.Printf("Success %+v\n", resp.StatusCode)
+	return resp.StatusCode == 204, err
 }
 
 func (m *Message) formatted() string {

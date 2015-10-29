@@ -1,9 +1,10 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/danriti/standup"
 	"github.com/danriti/standup/httputils"
-	"net/http"
 )
 
 func main() {
@@ -12,6 +13,7 @@ func main() {
 }
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
+	nr := &notifyResponse{Success: false, Failure: false}
 	if r.Method == "POST" {
 		r.ParseForm()
 		msg := &standup.Message{
@@ -21,7 +23,14 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 			Blocked:   httputils.PostFormValue(r, "blocked", "Nope"),
 			IsBlocked: httputils.PostFormBoolean(r, "is_blocked"),
 		}
-		msg.Notify()
+		success, err := msg.Notify()
+		nr.Success = success
+		nr.Failure = err != nil
 	}
-	httputils.RenderTemplate(w, "standup.html")
+	httputils.RenderTemplate(w, "standup.html", nr)
+}
+
+type notifyResponse struct {
+	Success bool
+	Failure bool
 }

@@ -7,6 +7,18 @@
   <div class="container">
     <h1>Astrocats Standup!</h1>
 
+  {{if .Success}}
+    <div class="alert alert-success" role="alert">
+      <strong>Well done!</strong> Your standup was submitted to HipChat.
+    </div>
+  {{end}}
+
+  {{if .Failure}}
+    <div class="alert alert-danger" role="alert">
+      <strong>Oh snap!</strong> Something went wrong, so please manually post in HipChat.
+    </div>
+  {{end}}
+
     <form action="/" method="post">
       <div class="form-group">
         <label>Name:</label>
