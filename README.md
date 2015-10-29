@@ -6,7 +6,7 @@ Notify a HipChat room with your daily status for standup.
 
 ```bash
 $ git clone git@github.com:danriti/standup.git
-$ cd standup
+$ cd standup/cmd/standup-server
 $ docker build -t standup ./
 $ export HIPCHAT_TOKEN=<token>
 $ export HIPCHAT_ROOM_ID=<room-id>
