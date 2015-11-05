@@ -7,7 +7,7 @@ import (
 	"os"
 	"text/template"
 
-	"github.com/danriti/hipchat-go/hipchat"
+	"github.com/tbruyelle/hipchat-go/hipchat"
 )
 
 var (
