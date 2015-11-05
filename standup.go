@@ -7,7 +7,7 @@ import (
 	"os"
 	"text/template"
 
-	"github.com/tbruyelle/hipchat-go/hipchat"
+	"github.com/danriti/hipchat-go/hipchat"
 )
 
 var (
@@ -29,6 +29,8 @@ func (m *Message) Notify() (success bool, err error) {
 		Message:       m.formatted(),
 		MessageFormat: "html",
 		Color:         m.color(),
+		From:          "( •_•)",
+		Notify:        true,
 	}
 	resp, err := c.Room.Notification(roomId, nr)
 	if err != nil {
